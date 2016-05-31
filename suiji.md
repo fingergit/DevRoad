@@ -30,3 +30,10 @@
 ## 2016/5/29 周日
 - javascript学习
 - 免费短信验证码接收网站: http://receive-sms-online.com/
+
+## 2016/5/30 周一
+- 开发javascript splitter库
+
+## 2016/5/31 周二
+- 完善splitter库
+-
