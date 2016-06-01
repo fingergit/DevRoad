@@ -36,4 +36,8 @@
 
 ## 2016/5/31 周二
 - 完善splitter库
--
+- UndoRedo Manager js
+
+## 2016/6/1 周三
+- 学习[html2canvas](http://html2canvas.hertzen.com/)
+
