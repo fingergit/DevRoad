@@ -59,3 +59,6 @@
 #### 2016/6/14 周二
 - 研究creator.ionic在web操作时数据的请求与接收处理。（ionic创建的一个app的项目结构）
 - handlebarsjs库使用。 http://handlebarsjs.com/
+
+#### 2016/6/22 周二
+- 学习TypeScript
