@@ -62,3 +62,59 @@
 
 #### 2016/6/22 周二
 - 学习TypeScript
+
+### 2016/9/8 周四
+- CentOS下ionic2和android配置。
+
+### 2016/9/9 周五
+- 调查如何最小化ionic 2生成的js文件   
+   方法：
+   1. 对于ios和android，在build时添加`--release`参数：  
+   ```
+   ionic build android --release
+   ```
+
+   1. 对于serve，修改gulpfile.js文件：
+   ```
+gulp.task('watch', ['clean'], function(done){
+  runSequence(
+    ...
+    function(){
+      ...
+      buildBrowserify({ watch: true }).on('end', done);
+    }
+  );
+});
+
+   ```
+   改为：
+   ```
+gulp.task('watch', ['clean'], function(done){
+  runSequence(
+    ...
+    function(){
+      ...
+      buildBrowserify({ 
+        watch: true,
+        minify:true,
+        uglifyOptions: {
+          mangle: false
+        }
+      }).on('end', done);
+    }
+  );
+});
+
+   ```
+
+- 调查为什么ionic2的cutePuppyPics生成的www可以在iphone上预览，而ionic-preview-app-master的www不行。  
+  原因：index.html中缺少一句：
+  ```
+  <!-- Polyfill needed for platforms without Promise and Collection support -->
+  <script src="build/js/es6-shim.min.js"></script>
+  ```
+  加在`</ion-app>`之后
+
+- VMWare安装OSX 10.11及xCode，在OSX编译ionic2
+- php调用可执行程序。
+  
