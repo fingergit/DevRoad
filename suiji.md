@@ -117,4 +117,42 @@ gulp.task('watch', ['clean'], function(done){
 
 - VMWare安装OSX 10.11及xCode，在OSX编译ionic2
 - php调用可执行程序。
-  
+
+### 2016/9/12 周一
+- 调查如何使用QT启动ionic进行build。   
+  可以通过如下方式：  
+  ```
+    QStringList cmdlist;
+    // 参数1：ionic执行文件全路径。
+    cmdlist.append("C:\\Users\\laj\\AppData\\Roaming\\npm\\node_modules\\ionic\\bin\\ionic");
+    // 参数2：执行ionic的build命令。
+    cmdlist.append("build");
+
+    // 设置ionic build的代码的根目录
+    QDir::setCurrent("F:\\temp\\vac-template");
+
+    // 执行ionic build。
+    QProcess mProcess;
+    mProcess.execute("node", cmdlist);
+
+  ```
+
+- 调查如何通过vac-template.zip解压后的文件使用共同的node_modules文件夹，而不是每个vac-template项目都带有一个node_modules文件夹。  
+  【!!!今日无解】      
+  在使用代码生成vac-template项目后，其中需要通过yum install生成node_modules文件夹，这个生成时间非常长，且占用空间非常大。必须要找到使用共享node_modules文件夹的方法。
+
+  https://segmentfault.com/a/1190000002478924
+
+- node常用   
+  - `npm root -g` 查看在系统nodejs全局的路径。
+  - 设置全局路径:   
+
+  ```
+  # in *nix
+  npm config set prefix /path/to/global
+
+  # in windows
+  npm config set prefix C:\\Users\\pc\\global
+  ```
+
+- 判断vac-template项目中有没有node_modules文件夹，没有则解压zip文件，生成此文件夹。
