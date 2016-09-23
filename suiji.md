@@ -156,3 +156,100 @@ gulp.task('watch', ['clean'], function(done){
   ```
 
 - 判断vac-template项目中有没有node_modules文件夹，没有则解压zip文件，生成此文件夹。
+
+### 2016/9/15 周四   
+### 2016/9/16 周五   
+### 2016/9/17 周六   
+- 中秋放假
+
+### 2016/9/18 周日
+- visual-app-creator更新为angular2.0正式版
+- 更新过程中的坑：
+  1. npm start过程中出现错误：   
+     ```
+     Variable '$' must be of type 'JQueryStatic', but here has type 'cssSelectorHelper'
+     ```
+
+     原因：JQuery与angular-protractor冲突。
+     临时解决方法：将`typings\globals\angular-protractor\index.d.ts`中`declare var $: cssSelectorHelper;`行注释掉。
+
+  1. 拖拽控件到编辑区时，无法Drop。   
+     原因：edit-panel.component.ts中，`if (this.appFrame.hasOwnProperty('attachEvent'))`进不去，`this.actionService.platformChanged`中，进入initFrame时，appFrame.contentDocument属性不存在。
+
+     解决方法：无需修改，在apache服务器下是正常的，只是npm start时，会不正确。
+
+  1. QT调用ionic build时，如何将ionic的命令行输出输出到指定的文件中？
+     启用QProcess.start代替execute，并调用mProcess.waitForFinished();等待结束，然后   
+     ```
+    QByteArray qba = mProcess.readAllStandardOutput();
+    char* myChar = new char[qba.length()];
+    for (int i = 0; i < qba.length(); i++)
+    {
+      myChar[i] = qba[i];
+    }
+    string str2 = string(myChar);
+    delete[] myChar;
+    wprintf(L"----\n");
+    wprintf(L"%s\n", QString::fromLocal8Bit(qba).toStdWString().c_str());
+     ```     
+     
+  1. 如何使用QT的Log类？
+     
+### 2016/9/20 周二
+- How to add conditional attribute in Angular 2?   
+  http://stackoverflow.com/questions/36745734/how-to-add-conditional-attribute-in-angular-2
+
+- Can't bind to 'vac-page-type' since it isn't a known property of 'button'.   
+  使用`<div [attr.vac-page-type]="EVacProjectPageType.NORMAL"></div>`代替`<div vac-page-type="{{EVacProjectPageType.NORMAL}}"></div>`。
+
+- angular2，如何设置一个DOM element的style？   
+  `<div [style.background-color]="blackColor">`
+  其中，blackColor为component中的变量。
+
+  如果想直接赋值，需加单引号。   
+  ```<div [style.background-color]="'red'">```
+  
+### 2016/9/23 周五
+- ionicframework使用的angular已更新为2.0正式版，下载编译。(还有问题未解决。)   
+  问题：npm install ionic时，提示：`no such file or directory, rename 'C:\Users\laj\AppData\Roaming\npm\node_modules\.staging\ansi-5ceb118d'`   
+  解决方法：将C:\Users\laj\AppData\Roaming\npm\node_modules下的ionic文件夹删除，重新执行。
+
+- 在modal中使用component组件。component组件通过EventEmitter向modal调用者发送消息。   
+  component中：
+   ```
+   @Component(
+   export class IonicIconsComponent implements OnInit{
+       @Output() iconSelected: EventEmitter<any> = new EventEmitter(false);
+
+       onSelect(item:string){
+        this.iconSelected.emit(item);
+      }
+    }
+  ```
+  
+  modal调用者中：   
+  ```
+  <button type="button" class="btn btn-sm btn-default btn-select-icon " title="..." (click)="iconModal.open()">...
+  </button>
+  <modal #iconModal>
+      <modal-header [show-close]="true">
+          <h4 class="modal-title">Select icon</h4>
+      </modal-header>
+      <modal-body>
+          <vac-ionic-icons (iconSelected)="iconSelect($event)"></vac-ionic-icons>
+      </modal-body>
+      <modal-footer [show-default-buttons]="true"></modal-footer>
+  </modal>
+  ```
+  ```
+  export class IconItemComponent implements OnInit{
+      @ViewChild('iconModal')
+      iconModal: ModalComponent;
+
+      iconSelect(icon:string){
+          this._selectIcon(icon);
+          this.iconModal.close();
+      }
+  }
+  ```
+  
