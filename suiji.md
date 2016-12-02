@@ -67,8 +67,8 @@
 - CentOS下ionic2和android配置。
 
 ### 2016/9/9 周五
-- 调查如何最小化ionic 2生成的js文件   
-   方法：
+-  调查如何最小化ionic 2生成的js文件   
+    方法：
    1. 对于ios和android，在build时添加`--release`参数：  
    ```
    ionic build android --release
@@ -76,21 +76,21 @@
 
    1. 对于serve，修改gulpfile.js文件：
    ```
-gulp.task('watch', ['clean'], function(done){
-  runSequence(
+   gulp.task('watch', ['clean'], function(done){
+   runSequence(
     ...
     function(){
       ...
       buildBrowserify({ watch: true }).on('end', done);
     }
-  );
-});
+   );
+   });
 
    ```
    改为：
    ```
-gulp.task('watch', ['clean'], function(done){
-  runSequence(
+   gulp.task('watch', ['clean'], function(done){
+   runSequence(
     ...
     function(){
       ...
@@ -102,21 +102,21 @@ gulp.task('watch', ['clean'], function(done){
         }
       }).on('end', done);
     }
-  );
-});
+   );
+   });
 
    ```
 
-- 调查为什么ionic2的cutePuppyPics生成的www可以在iphone上预览，而ionic-preview-app-master的www不行。  
-  原因：index.html中缺少一句：
-  ```
-  <!-- Polyfill needed for platforms without Promise and Collection support -->
-  <script src="build/js/es6-shim.min.js"></script>
-  ```
-  加在`</ion-app>`之后
+-  调查为什么ionic2的cutePuppyPics生成的www可以在iphone上预览，而ionic-preview-app-master的www不行。  
+   原因：index.html中缺少一句：
+   ```
+   <!-- Polyfill needed for platforms without Promise and Collection support -->
+   <script src="build/js/es6-shim.min.js"></script>
+   ```
+   加在`</ion-app>`之后
 
-- VMWare安装OSX 10.11及xCode，在OSX编译ionic2
-- php调用可执行程序。
+-  VMWare安装OSX 10.11及xCode，在OSX编译ionic2
+-  php调用可执行程序。
 
 ### 2016/9/12 周一
 - 调查如何使用QT启动ionic进行build。   
@@ -173,28 +173,28 @@ gulp.task('watch', ['clean'], function(done){
      原因：JQuery与angular-protractor冲突。
      临时解决方法：将`typings\globals\angular-protractor\index.d.ts`中`declare var $: cssSelectorHelper;`行注释掉。
 
-  1. 拖拽控件到编辑区时，无法Drop。   
+  2. 拖拽控件到编辑区时，无法Drop。   
      原因：edit-panel.component.ts中，`if (this.appFrame.hasOwnProperty('attachEvent'))`进不去，`this.actionService.platformChanged`中，进入initFrame时，appFrame.contentDocument属性不存在。
 
      解决方法：无需修改，在apache服务器下是正常的，只是npm start时，会不正确。
 
-  1. QT调用ionic build时，如何将ionic的命令行输出输出到指定的文件中？
+  3. QT调用ionic build时，如何将ionic的命令行输出输出到指定的文件中？
      启用QProcess.start代替execute，并调用mProcess.waitForFinished();等待结束，然后   
      ```
-    QByteArray qba = mProcess.readAllStandardOutput();
-    char* myChar = new char[qba.length()];
-    for (int i = 0; i < qba.length(); i++)
-    {
+     QByteArray qba = mProcess.readAllStandardOutput();
+     char* myChar = new char[qba.length()];
+     for (int i = 0; i < qba.length(); i++)
+     {
       myChar[i] = qba[i];
-    }
-    string str2 = string(myChar);
-    delete[] myChar;
-    wprintf(L"----\n");
-    wprintf(L"%s\n", QString::fromLocal8Bit(qba).toStdWString().c_str());
-     ```     
-     
-  1. 如何使用QT的Log类？
-     
+     }
+     string str2 = string(myChar);
+     delete[] myChar;
+     wprintf(L"----\n");
+     wprintf(L"%s\n", QString::fromLocal8Bit(qba).toStdWString().c_str());
+     ```
+
+  4. 如何使用QT的Log类？
+
 ### 2016/9/20 周二
 - How to add conditional attribute in Angular 2?   
   http://stackoverflow.com/questions/36745734/how-to-add-conditional-attribute-in-angular-2
@@ -208,7 +208,7 @@ gulp.task('watch', ['clean'], function(done){
 
   如果想直接赋值，需加单引号。   
   ```<div [style.background-color]="'red'">```
-  
+
 ### 2016/9/23 周五
 - ionicframework使用的angular已更新为2.0正式版，下载编译。(还有问题未解决。)   
   问题：npm install ionic时，提示：`no such file or directory, rename 'C:\Users\laj\AppData\Roaming\npm\node_modules\.staging\ansi-5ceb118d'`   
@@ -216,7 +216,7 @@ gulp.task('watch', ['clean'], function(done){
 
 - 在modal中使用component组件。component组件通过EventEmitter向modal调用者发送消息。   
   component中：
-   ```
+  ```typescript
    @Component(
    export class IonicIconsComponent implements OnInit{
        @Output() iconSelected: EventEmitter<any> = new EventEmitter(false);
@@ -226,9 +226,9 @@ gulp.task('watch', ['clean'], function(done){
       }
     }
   ```
-  
+
   modal调用者中：   
-  ```
+  ```typescript
   <button type="button" class="btn btn-sm btn-default btn-select-icon " title="..." (click)="iconModal.open()">...
   </button>
   <modal #iconModal>
@@ -241,7 +241,7 @@ gulp.task('watch', ['clean'], function(done){
       <modal-footer [show-default-buttons]="true"></modal-footer>
   </modal>
   ```
-  ```
+  ```typescript
   export class IconItemComponent implements OnInit{
       @ViewChild('iconModal')
       iconModal: ModalComponent;
@@ -252,4 +252,7 @@ gulp.task('watch', ['clean'], function(done){
       }
   }
   ```
-  
+
+
+### 2016/9/27 周二
+
